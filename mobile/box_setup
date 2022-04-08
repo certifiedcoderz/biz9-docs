@@ -1,0 +1,75 @@
+//1
+Download the latest Java JDK 8 from Oracle
+https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+$ sudo apt-get remove openjdk-*
+mkdir -p /user/local/java
+tar xvzf jdk-8u261-linux-x64.tar.gz
+mv jdk1.8.0_261 /usr/local/java
+
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_231/bin/java" 0
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0_231/bin/javac" 0
+sudo update-alternatives --set java /usr/lib/jvm/jdk1.8.0_231/bin/java
+sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_231/bin/javac
+
+# Check updated locations
+update-alternatives --list java
+update-alternatives --list javac
+
+#Check java version
+java -version
+
+
+
+
+//2 BASH 3.24.2022
+### ANDROID SDK START ###
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_311/
+export PATH=${PATH}:"/usr/lib/jvm/java-11-openjdk-amd64/bin"
+export ANDROID_SDK_ROOT=~/www/opz/toolz/command_line_tools_jan_2022/cmdline-tools/bin
+export ANDROID_HOME=~/www/opz/toolz/command_line_tools_jan_2022/cmdline-tools/bin
+export sdk_root=~/www/opz/toolz/command_line_tools_jan_2022/cmdline-tools/bin
+export PATH=${PATH}:${ANDROID_SDK_ROOT}
+export GRADLE_HOME=/opt/gradle
+export PATH=${PATH}:${GRADLE_HOME}/bin
+export ORG_GRADLE_PROJECT_cdvMinSdkVersion=20
+### ANDROID SDK END ###
+
+//3
+Gradle
+https://gradle.org/install/#manually
+https://services.gradle.org/distributions/gradle-6.5.1-bin.zip
+
+//4
+### ANDROID SDK START ###
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_311/
+export PATH=${PATH}:"/usr/lib/jvm/java-11-openjdk-amd64/bin"
+export ANDROID_SDK_ROOT=~/www/opz/productz/biz9/biz9-mobile/toolz/command_line_tools_jan_2022/cmdline-tools/bin
+export PATH=${PATH}:${ANDROID_SDK_ROOT}
+export GRADLE_HOME=/opt/gradle
+export PATH=${PATH}:${GRADLE_HOME}/bin
+### ANDROID SDK END ###
+
+//5 apksigner
+ generate key.pk8
+
+$ openssl genrsa -out key.pem 2048
+$ openssl req -new -key key.pem -out request.pem
+$ openssl x509 -req -days 9999 -in request.pem -signkey key.pem -out certificate.pem
+$ openssl pkcs8 -topk8 -outform DER -in key.pem -inform PEM -out key.pk8 -nocrypt
+
+
+#create keystore
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+
+apksigner sign --ks my-release-key.keystore biz9mobile.apk --ks-key-alias alias_name
+
+and can be verified with
+
+apksigner verify my-app.apk
+
+
+
+
+//6 push apk to server
+- set folder permission
+sudo chmod a+rwx www

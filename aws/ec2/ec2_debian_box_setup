@@ -1,0 +1,128 @@
+#
+########################################################################_apt_install_start
+
+-$ apt-get install nginx redis-server redis-tools git unzip curl rsync pm2
+########################################################################_apt_install_start
+#
+################################################################-node_start
+-$ curl -sL https://deb.nodesource.com/setup_14.x | bash -
+--
+-$ apt-get install -y nodejs
+--
+-$ npm install -g pm2 nodemon
+################################################################-node_end
+#
+#
+################################################################-mongo_start
+
+## install mongo
+-$ wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+--
+-$ echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+--
+-$ apt-get update
+--
+-$ sudo apt-get install -y mongodb-org
+--
+-$ npm install mongodb
+--
+$ sudo systemctl enable mongod --now
+--
+
+## config mongo
+vi /etc/mongod.conf
+port=27019
+#bind_ip= #comment out
+--
+
+## start mongo
+-$ service  mongod stop
+
+-$ service  mongod start
+-$ mongo --shell --port 27019
+
+
+## mongo dump
+-$ mongodump --db cool --port 27019
+
+## mongo restore
+-$ mongorestore --db dbname --drop dump/dbname --port 27019
+
+
+################################################################-mongo_start
+
+
+################################################################ user_bashrc_start
+#source /home/admin/www/scriptz/dq_ec2_script.sh
+export NODE_ENV=prod; #prod
+
+################################################################ user_bashrc_end
+
+#
+#BIZ9-WEB AWS Debian 10 Bash Root Config File
+################################################################## root_bashrc_start
+export NODE_ENV=prod;
+export PATH=~/.npm-global/bin:$PATH;
+alias 9_open_port_list='sudo netstat -ntlp | grep LISTEN';
+alias 9_kill_all_node='killall node';
+alias 9_go_home='cd /home/admin/www/';
+
+alias 9_server_edit='cd /etc/nginx/conf.d/';
+alias 9_server_stop='service nginx stop';
+alias 9_server_start='service nginx start';
+alias 9_server_restart='service nginx restart';
+
+alias 9_app_start='pm2 start bin/www';
+alias 9_app_restart='pm2 restart bin/www';
+alias 9_app_list='pm2 list';
+alias 9_app_stop='pm2 stop bin/www';
+alias 9_app_stop_all='pm2 stop all';
+alias 9_app_restart_all='pm2 restart all';
+alias 9_app_config_edit='vi /etc/nginx/sites-enabled/default';
+alias 9_bashrc_edit='vi ./.bashrc';
+
+alias 9_kill_app='kill -9 ';
+alias 9_kill_all_node='killall node';
+alias 9_redis_flush='redis-cli FLUSHALL';
+
+web_dir='/home/admin/www/web/scriptz';
+alias  9_git_init='bash ${web_dir}/dq_git_init.sh';
+alias  9_git_config='bash ${web_dir}/dq_git_config.sh';
+alias  9_git_commit='bash ${web_dir}/dq_git_commit.sh';
+alias  9_git_push=$'bash ${web_dir}/dq_git_push.sh';
+
+alias 9_mongo_dump='bash ${web_dir}/dq_mongo_dump.sh';
+alias 9_mongo_list_dump='bash ${web_dir}/dq_mongo_list_dump.sh';
+alias 9_mongo_restore='bash ${web_dir}/dq_mongo_restore.sh';
+alias 9_mongo_shell='mongo --shell --port 27019';
+alias 9_mongo_start="sudo mongod --fork --config /etc/mongod.conf"
+
+################################################################# root_bashrc_end
+#
+
+################################################################## nginx_conf_start
+/etc/nginx/sites-enabled/default
+
+server {
+    client_max_body_size 8M; # big file upload
+    listen 80;
+    server_name bossappz.com;
+    location / {
+        proxy_pass http://localhost:1901;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        if ($http_x_forwarded_proto != 'https') {
+            rewrite ^ https://$host$request_uri? permanent;
+        }
+    }
+}
+################################################################## nginx_conf_end
+
+
+
+
+
+
