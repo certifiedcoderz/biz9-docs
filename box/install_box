@@ -1,17 +1,30 @@
-### apt-get
+#############################################
+# Copyright (C) 2019 9_OPZ #Certified CoderZ
+# GNU GENERAL PUBLIC LICENSE
+# Full LICENSE file ( gpl-3.0-licence.txt )
+# BiZ9 Framework
+# Install DOQBox ToolZ
+#############################################
+
+# $ sudo -i
+# #select root user.
+# next run these commands line by line.
+#
 apt-get install vim vim-common vim-gui-common curl
 apt-get install nginx redis-server redis-tools git npm terminator tmux
-apt-get install arandr apt-transport-https newsbeuter
+apt-get install arandr apt-transport-https newsboat
 apt-get install nodejs node-gyp wget net-tools rysnc gnome-calculator
 
-### npm
+# $ exit
+# #exit from root back to user.
+# next run these commands line by line.
 npm install express async  aws-sdk connect-busboy ejs express-session
 npm install mongodb stripe
 
-### npm sudo
-sudo npm install -g --force nodemon
-sudo npm install express-generator -g
-sudo npm install -g mocha
+# $ sudo -i
+# #select root user.
+# next run this command.
+npm install -g --force nodemon express-generator mocha
 
 
 
