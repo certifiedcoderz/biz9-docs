@@ -97,6 +97,8 @@ alias 9_mongo_restore='bash ${web_dir}/dq_mongo_restore.sh';
 alias 9_mongo_shell='mongo --shell --port 27019';
 alias 9_mongo_start="sudo mongod --fork --config /etc/mongod.conf"
 
+sudo systemctl enable mongod --now
+
 ################################################################# root_bashrc_end
 #
 
