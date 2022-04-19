@@ -6,24 +6,23 @@
 # Install DOQBox ToolZ
 #############################################
 
-# $ sudo -i
-# #select root user.
+# type: sudo -i
+# #change to root user.
 # next run these commands line by line.
-#
 apt-get install vim vim-common vim-gui-common curl
 apt-get install nginx redis-server redis-tools git npm terminator tmux
 apt-get install arandr apt-transport-https newsboat
 apt-get install nodejs node-gyp wget net-tools rysnc gnome-calculator
 
-# $ exit
+# type: exit
 # #exit from root back to user.
-# next run these commands line by line.
+# next run the command(s) below.
 npm install express async  aws-sdk connect-busboy ejs express-session
 npm install mongodb stripe
 
-# $ sudo -i
+# type: sudo -i
 # #select root user.
-# next run this command.
+# next run the command(s) below.
 npm install -g --force nodemon express-generator mocha
 
 
