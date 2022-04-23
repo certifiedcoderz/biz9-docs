@@ -1,54 +1,47 @@
 #
 ########################################################################_apt_install_start
-
--$ apt-get install nginx redis-server redis-tools git unzip curl rsync pm2
+#
+apt-get install nginx redis-server redis-tools git unzip curl rsync
+#
 ########################################################################_apt_install_start
 #
 ################################################################-node_start
--$ curl -sL https://deb.nodesource.com/setup_14.x | bash -
---
--$ apt-get install -y nodejs
---
--$ npm install -g pm2 nodemon
+#
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+#
+apt-get install -y nodejs
+#
+npm install -g pm2 nodemon pm2
+#
 ################################################################-node_end
 #
 #
 ################################################################-mongo_start
 
 ## install mongo
--$ wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
---
--$ echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
---
--$ apt-get update
---
--$ sudo apt-get install -y mongodb-org
---
--$ npm install mongodb
---
-$ sudo systemctl enable mongod --now
---
-
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+#
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+#
+apt-get update
+#
+sudo apt-get install -y mongodb-org
+#
+npm install mongodb
+#
+sudo systemctl enable mongod --now
+#
 ## config mongo
 vi /etc/mongod.conf
 port=27019
-#bind_ip= #comment out
+#bind_ip= #comment out ??
 --
 
 ## start mongo
--$ service  mongod stop
+service  mongod stop
 
--$ service  mongod start
--$ mongo --shell --port 27019
-
-
-## mongo dump
--$ mongodump --db cool --port 27019
-
-## mongo restore
--$ mongorestore --db dbname --drop dump/dbname --port 27019
-
-
+service  mongod start
+mongo --shell --port 27019
 ################################################################-mongo_start
 
 
@@ -85,7 +78,7 @@ alias 9_kill_app='kill -9 ';
 alias 9_kill_all_node='killall node';
 alias 9_redis_flush='redis-cli FLUSHALL';
 
-web_dir='/home/admin/www/web/scriptz';
+web_dir='scriptz';
 alias  9_git_init='bash ${web_dir}/dq_git_init.sh';
 alias  9_git_config='bash ${web_dir}/dq_git_config.sh';
 alias  9_git_commit='bash ${web_dir}/dq_git_commit.sh';
