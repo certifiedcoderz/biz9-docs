@@ -46,9 +46,7 @@ mongo --shell --port 27019
 
 
 ################################################################ user_bashrc_start
-#source /home/admin/www/scriptz/dq_ec2_script.sh
 export NODE_ENV=prod; #prod
-
 ################################################################ user_bashrc_end
 
 #
@@ -94,8 +92,31 @@ sudo systemctl enable mongod --now
 
 ################################################################# root_bashrc_end
 #
+#
+################################################################# root_cron_jobz_start
+##
+# create job  file
+$ mkdir www/jobz
+$ vi reset_mongo.sh
+$ sudo mongod --fork --config /etc/mongod.conf
+#
+# create cron job
+$ crontab -e
+$ */1 *   *   *   *   /home/admin/www/jobz/reset_mongo.sh
 
+# start chron
+$ /etc/init.d/cron stop
+$ /etc/init.d/cron start
+
+##
+# list cron
+crontab -l
+
+################################################################# root_cron_jobz_end
+#
+#
 ################################################################## nginx_conf_start
+#
 /etc/nginx/sites-enabled/default
 
 server {
